@@ -25,7 +25,7 @@ class Search_movies:
         except:
             self.marketplace = "default"
         self.title_list = inp.strip().split('-')[0]
-        self.input = self.title_list.strip().split(', ')
+        self.input = self.title_list.strip().split(',')
         self.list_of_movies = []
         self.multiple_search_urls = []
         self.multiple_titles = []
@@ -33,25 +33,21 @@ class Search_movies:
 
     def get_url_single(self):
         self.title = self.input
-        print(self.title)
-        print(self.input)
-
         country_tag = "us" if self.marketplace == "default" else self.marketplace
         self.marketplace = f"&country={country_tag}"
-        print(self.marketplace)
-        print(len(self.marketplace))
 
         self.address = f"https://itunes.apple.com/search?term={'+'.join(self.title).lower()}{self.marketplace}&media=movie"
 
     ## For now, multiple search is only for US marketplace
     def get_url_multiple(self):
+        country_tag = "us" if self.marketplace == "default" else self.marketplace
+        self.marketplace = ""
+        self.marketplace = f"&country={country_tag}"
         for title in self.input:
             splitted = title.lower().split()
             self.multiple_titles.append(' '.join(splitted))
-            country_tag = "us" if self.marketplace == "default" else self.marketplace
-            self.marketplace = f"&country={country_tag}"
 
-            each_address = f"https://itunes.apple.com/search?term={'+'.join(splitted).lower()}&country={self.marketplace}&media=movie"
+            each_address = f"https://itunes.apple.com/search?term={'+'.join(splitted).lower()}{self.marketplace}&media=movie"
             self.multiple_search_urls.append(each_address)
 
     def print_address(self):
