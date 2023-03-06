@@ -20,27 +20,38 @@ class Search_movies:
     def __init__(self, inp):
         self.address = "default",
         self.title = "default",
-        self.marketplace = "default",
-        self.input = inp.strip().split(', ')
+        try:
+            self.marketplace = inp.strip().split('-')[1]
+        except:
+            self.marketplace = "default"
+        self.title_list = inp.strip().split('-')[0]
+        self.input = self.title_list.strip().split(', ')
         self.list_of_movies = []
         self.multiple_search_urls = []
         self.multiple_titles = []
         self.potential_match = ""
 
     def get_url_single(self):
-        self.title = self.input[0].split()
+        self.title = self.input
+        print(self.title)
+        print(self.input)
 
-        country_tag = "us" if len(self.input) != 2 else self.input[1]
+        country_tag = "us" if self.marketplace == "default" else self.marketplace
         self.marketplace = f"&country={country_tag}"
+        print(self.marketplace)
+        print(len(self.marketplace))
 
-        self.address = f"https://itunes.apple.com/search?term={'+'.join(self.title)}{self.marketplace}&media=movie"
+        self.address = f"https://itunes.apple.com/search?term={'+'.join(self.title).lower()}{self.marketplace}&media=movie"
 
     ## For now, multiple search is only for US marketplace
     def get_url_multiple(self):
         for title in self.input:
             splitted = title.lower().split()
             self.multiple_titles.append(' '.join(splitted))
-            each_address = f"https://itunes.apple.com/search?term={'+'.join(splitted)}&country=us&media=movie"
+            country_tag = "us" if self.marketplace == "default" else self.marketplace
+            self.marketplace = f"&country={country_tag}"
+
+            each_address = f"https://itunes.apple.com/search?term={'+'.join(splitted).lower()}&country={self.marketplace}&media=movie"
             self.multiple_search_urls.append(each_address)
 
     def print_address(self):
@@ -132,7 +143,7 @@ if __name__ == "__main__":
 
 
 # Single search
-    if len(search_movies.input) <= 2:
+    if len(input.split(',')) < 2:
         ## Generate a URL
         search_movies.get_url_single()
         
