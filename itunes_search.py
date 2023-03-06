@@ -32,7 +32,7 @@ class Search_movies:
         self.potential_match = ""
 
     def get_url_single(self):
-        self.title = self.input
+        self.title = self.input[0].split(' ')
         country_tag = "us" if self.marketplace == "default" else self.marketplace
         self.marketplace = f"&country={country_tag}"
 
