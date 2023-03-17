@@ -60,15 +60,17 @@ class Search_movies:
 ## Save in a list all the movies provided by apple
         for title in response['results']:
             
-            try:
-                preview = title['previewUrl']
-            except:
-                preview = "No preview available"
+            if 'longDescription' not in title: 
+                title['longDescription'] = "No description available"
+            elif 'previewUrl' not in title:
+                title['previewUrl'] = "No preview available"
+            elif 'trackViewUrl' not in title:
+                title['trackViewUrl'] = 'TrackViewUrl not available' 
 
             date = dateutil.parser.parse(title['releaseDate'])
             formatted_date = date.strftime('%Y')
-
-            self.list_of_movies.append(Movie(title['trackName'], title['longDescription'], title['trackViewUrl'], preview, formatted_date))
+            
+            self.list_of_movies.append(Movie(title['trackName'], title['longDescription'] or "No Description available", title['trackViewUrl'], title['previewUrl'], formatted_date))
 
 
 class Print_movies:
