@@ -133,7 +133,7 @@ class Save_output:
 
 if __name__ == "__main__":
 
-    input = input("search for...\t").replace("&amp;", " ").replace("&apos;", '').replace("&#39;", "").replace("&", " ").replace("'", "").replace(":", "")
+    input = input("search for...\t").replace("&amp;", " ").replace("&apos;", "").replace("&#39;", "").replace("&", " ").replace("'", "").replace(":", "").replace(";", "")
 
     search_movies = Search_movies(input)
     printer = Print_movies(search_movies.list_of_movies, search_movies.multiple_titles)
