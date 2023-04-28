@@ -178,7 +178,6 @@ if __name__ == "__main__":
         save_outouts.close_table()
 
     
-    print(input)
 
 
 
